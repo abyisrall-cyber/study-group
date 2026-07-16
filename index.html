@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduPlateforme CI — L'école ivoirienne, connectée</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu-nuit:#0B2545;
+    --bleu-academique:#1D4E89;
+    --bleu-ciel:#4E8FE3;
+    --emeraude:#0E9F6E;
+    --emeraude-clair:#D1FAE5;
+    --blanc-casse:#F8FAFC;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Inter',sans-serif; background:var(--blanc-casse); color:var(--bleu-nuit); margin:0;}
+  h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
+  .grad-hero{background: radial-gradient(circle at 15% 20%, #163B6B 0%, var(--bleu-nuit) 55%, #071A33 100%);}
+  .accent-line{background: linear-gradient(90deg, var(--emeraude), var(--bleu-ciel));}
+  .btn-primary{background:var(--emeraude); transition:.2s;}
+  .btn-primary:hover{background:#0C8A5F; transform:translateY(-1px);}
+  .card-hover{transition:.25s; border:1px solid #E5EEF9;}
+  .card-hover:hover{transform:translateY(-4px); box-shadow:0 12px 30px -8px rgba(11,37,69,.15); border-color:var(--bleu-ciel);}
+  .node{animation: pulse 2.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.15);}}
+  .link-anim{stroke-dasharray:6 6; animation: dash 3s linear infinite;}
+  @keyframes dash{to{stroke-dashoffset:-60;}}
+  .float{animation: float 6s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  ::selection{background:var(--emeraude); color:#fff;}
+  :focus-visible{outline:3px solid var(--emeraude); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur border-b border-slate-100">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2 font-display font-bold text-lg" style="color:var(--bleu-nuit)">
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background:var(--emeraude)">É</span>
+      EduPlateforme <span style="color:var(--emeraude)">CI</span>
+    </div>
+    <nav class="hidden md:flex gap-8 text-sm font-medium text-slate-600">
+      <a href="#matieres" class="hover:text-[var(--bleu-academique)]">Matières</a>
+      <a href="#groupes" class="hover:text-[var(--bleu-academique)]">Groupes d'étude</a>
+      <a href="#compositions" class="hover:text-[var(--bleu-academique)]">Compositions</a>
+      <a href="#niveaux" class="hover:text-[var(--bleu-academique)]">Niveaux</a>
+    </nav>
+    <button onclick="connexionGoogle()" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full flex items-center gap-2">
+      <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#fff" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/></svg>
+      Se connecter
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="grad-hero text-white pt-32 pb-24 px-5 md:px-8 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+    <div>
+      <p class="uppercase tracking-[0.2em] text-xs font-semibold mb-5" style="color:var(--emeraude-clair)">Du CP1 à la Terminale · 100% ivoirien</p>
+      <h1 class="font-display text-4xl md:text-5xl font-bold leading-tight mb-6">
+        Ton serveur de classe,<br> partout en <span style="color:var(--emeraude)">Côte d'Ivoire</span>.
+      </h1>
+      <p class="text-slate-300 text-lg mb-8 max-w-lg">
+        Chaque élève rejoint automatiquement les autres de son niveau. Cours, exercices corrigés, groupes d'étude et compositions chronométrées entre camarades — même sans se connaître.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <button onclick="connexionGoogle()" class="btn-primary text-white font-semibold px-7 py-3.5 rounded-full">
+          Rejoindre mon serveur de classe →
+        </button>
+        <a href="#comment-ca-marche" class="border border-white/30 text-white font-semibold px-7 py-3.5 rounded-full hover:bg-white/10">
+          Comment ça marche
+        </a>
+      </div>
+      <div class="flex items-center gap-6 mt-10 text-sm text-slate-400">
+        <div><span class="text-white font-bold text-xl font-display">14</span> niveaux couverts</div>
+        <div class="w-px h-8 bg-white/15"></div>
+        <div><span class="text-white font-bold text-xl font-display">BEPC·BAC</span> sujets corrigés</div>
+      </div>
+    </div>
+
+    <!-- Signature visual : réseau de serveurs de classe -->
+    <div class="relative h-80 md:h-96 float">
+      <svg viewBox="0 0 400 360" class="w-full h-full">
+        <g class="link-anim" stroke="#4E8FE3" stroke-width="1.5" fill="none" opacity="0.6">
+          <line x1="200" y1="180" x2="80" y2="70"/>
+          <line x1="200" y1="180" x2="320" y2="60"/>
+          <line x1="200" y1="180" x2="60" y2="250"/>
+          <line x1="200" y1="180" x2="330" y2="260"/>
+          <line x1="200" y1="180" x2="200" y2="300"/>
+        </g>
+        <circle cx="200" cy="180" r="34" fill="#0E9F6E" class="node"/>
+        <text x="200" y="185" text-anchor="middle" font-family="Space Grotesk" font-size="11" fill="#fff" font-weight="700">3ÈME</text>
+
+        <g>
+          <circle cx="80" cy="70" r="20" fill="#1D4E89" class="node" style="animation-delay:.3s"/>
+          <text x="80" y="74" text-anchor="middle" font-family="Inter" font-size="9" fill="#fff">Abidjan</text>
+        </g>
+        <g>
+          <circle cx="320" cy="60" r="20" fill="#1D4E89" class="node" style="animation-delay:.6s"/>
+          <text x="320" y="64" text-anchor="middle" font-family="Inter" font-size="9" fill="#fff">Bouaké</text>
+        </g>
+        <g>
+          <circle cx="60" cy="250" r="20" fill="#1D4E89" class="node" style="animation-delay:.9s"/>
+          <text x="60" y="254" text-anchor="middle" font-family="Inter" font-size="8" fill="#fff">Yamoussoukro</text>
+        </g>
+        <g>
+          <circle cx="330" cy="260" r="20" fill="#1D4E89" class="node" style="animation-delay:1.2s"/>
+          <text x="330" y="264" text-anchor="middle" font-family="Inter" font-size="9" fill="#fff">San-Pédro</text>
+        </g>
+        <g>
+          <circle cx="200" cy="300" r="20" fill="#1D4E89" class="node" style="animation-delay:1.5s"/>
+          <text x="200" y="304" text-anchor="middle" font-family="Inter" font-size="9" fill="#fff">Korhogo</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT CA MARCHE -->
+<section id="comment-ca-marche" class="py-24 px-5 md:px-8 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-14 max-w-2xl">
+      <p class="text-sm font-semibold" style="color:var(--emeraude)">Le parcours</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold mt-2">De la connexion à la composition</h2>
+    </div>
+    <div class="grid md:grid-cols-4 gap-6">
+      <div class="p-6 rounded-2xl card-hover">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold mb-4" style="background:var(--bleu-academique)">1</div>
+        <h3 class="font-display font-semibold text-lg mb-2">Connexion Google</h3>
+        <p class="text-slate-600 text-sm">Un ID unique t'est attribué : ton passeport EduPlateforme (ex. EDU-2026-4821).</p>
+      </div>
+      <div class="p-6 rounded-2xl card-hover">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold mb-4" style="background:var(--bleu-academique)">2</div>
+        <h3 class="font-display font-semibold text-lg mb-2">Ton profil</h3>
+        <p class="text-slate-600 text-sm">Établissement, classe et ville : tu es placé automatiquement sur le serveur de ton niveau.</p>
+      </div>
+      <div class="p-6 rounded-2xl card-hover">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold mb-4" style="background:var(--bleu-academique)">3</div>
+        <h3 class="font-display font-semibold text-lg mb-2">Groupe d'étude</h3>
+        <p class="text-slate-600 text-sm">Crée ou rejoins un groupe en entrant l'ID d'un camarade. Chat en temps réel inclus.</p>
+      </div>
+      <div class="p-6 rounded-2xl card-hover">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold mb-4" style="background:var(--emeraude)">4</div>
+        <h3 class="font-display font-semibold text-lg mb-2">Composition</h3>
+        <p class="text-slate-600 text-sm">Entre groupe ou en matchmaking public, affronte le chrono avec d'autres élèves de ton niveau.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATIERES -->
+<section id="matieres" class="py-24 px-5 md:px-8" style="background:var(--blanc-casse)">
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-14 max-w-2xl">
+      <p class="text-sm font-semibold" style="color:var(--emeraude)">Contenu pédagogique</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold mt-2">Leçons, vidéos, exercices — par matière et par classe</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="bg-white p-6 rounded-2xl card-hover">
+        <h3 class="font-display font-semibold mb-1">Mathématiques</h3>
+        <p class="text-slate-500 text-sm">Fiches illustrées + exercices corrigés pas à pas.</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl card-hover">
+        <h3 class="font-display font-semibold mb-1">Physique-Chimie</h3>
+        <p class="text-slate-500 text-sm">Expériences filmées et schémas explicatifs.</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl card-hover">
+        <h3 class="font-display font-semibold mb-1">SVT</h3>
+        <p class="text-slate-500 text-sm">Vidéos et quiz interactifs.</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl card-hover">
+        <h3 class="font-display font-semibold mb-1">Français & Anglais</h3>
+        <p class="text-slate-500 text-sm">Sujets BEPC/BAC corrigés.</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl card-hover">
+        <h3 class="font-display font-semibold mb-1">Histoire-Géo & Philo</h3>
+        <p class="text-slate-500 text-sm">Cours structurés et dissertations types.</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl card-hover">
+        <h3 class="font-display font-semibold mb-1">Allemand / Espagnol</h3>
+        <p class="text-slate-500 text-sm">Leçons progressives par niveau.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NIVEAUX -->
+<section id="niveaux" class="py-20 px-5 md:px-8 bg-white border-t border-slate-100">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="font-display text-2xl font-bold mb-8">Tous les niveaux, du primaire au bac</h2>
+    <div class="flex flex-wrap gap-3">
+      <span class="px-4 py-2 rounded-full text-sm font-medium" style="background:var(--emeraude-clair); color:var(--bleu-nuit)">CP1</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium" style="background:var(--emeraude-clair); color:var(--bleu-nuit)">CP2</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium" style="background:var(--emeraude-clair); color:var(--bleu-nuit)">CE1</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium" style="background:var(--emeraude-clair); color:var(--bleu-nuit)">CE2</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium" style="background:var(--emeraude-clair); color:var(--bleu-nuit)">CM1</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium" style="background:var(--emeraude-clair); color:var(--bleu-nuit)">CM2</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium text-white" style="background:var(--bleu-academique)">6ème</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium text-white" style="background:var(--bleu-academique)">5ème</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium text-white" style="background:var(--bleu-academique)">4ème</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium text-white" style="background:var(--bleu-academique)">3ème</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium text-white" style="background:var(--bleu-nuit)">2nde A/C</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium text-white" style="background:var(--bleu-nuit)">1ère A/C/D</span>
+      <span class="px-4 py-2 rounded-full text-sm font-medium text-white" style="background:var(--bleu-nuit)">Terminale A/C/D</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="py-20 px-5 md:px-8 grad-hero text-white text-center">
+  <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Ton serveur de classe t'attend.</h2>
+  <p class="text-slate-300 mb-8">Rejoins des milliers d'élèves ivoiriens déjà connectés à leur niveau.</p>
+  <button onclick="connexionGoogle()" class="btn-primary text-white font-semibold px-8 py-4 rounded-full">
+    Se connecter avec Google
+  </button>
+</section>
+
+<footer class="py-8 px-5 md:px-8 text-center text-sm text-slate-500 bg-white border-t border-slate-100">
+  EduPlateforme CI — Fait pour l'école ivoirienne. CP1 à Terminale.
+</footer>
+
+<script type="module">
+  // Voir firebase-config.js : à importer ici une fois tes clés Firebase renseignées.
+  // import { connexionGoogle } from './firebase-config.js';
+  // window.connexionGoogle = connexionGoogle;
+
+  window.connexionGoogle = function(){
+    alert("Branche ici firebase-config.js (fonction connexionGoogle) pour activer le Google Sign-In.");
+  };
+</script>
+</body>
+</html>

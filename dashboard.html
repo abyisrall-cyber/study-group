@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon tableau de bord — EduPlateforme CI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu-nuit:#0B2545; --bleu-academique:#1D4E89; --bleu-ciel:#4E8FE3;
+    --emeraude:#0E9F6E; --emeraude-clair:#D1FAE5; --blanc-casse:#F8FAFC;
+  }
+  body{font-family:'Inter',sans-serif; background:var(--blanc-casse); color:var(--bleu-nuit); margin:0;}
+  h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
+  .card{background:#fff; border:1px solid #E5EEF9; border-radius:1rem;}
+  .id-badge{background:linear-gradient(120deg, var(--bleu-nuit), var(--bleu-academique)); font-family:'Space Grotesk',monospace;}
+  .nav-link.active{color:var(--emeraude); font-weight:600;}
+  .progress-bar{background:#E2ECFA;}
+  .progress-fill{background:var(--emeraude);}
+</style>
+</head>
+<body>
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-white border-r border-slate-100 hidden md:flex flex-col p-6 sticky top-0 h-screen">
+    <div class="flex items-center gap-2 font-display font-bold text-lg mb-10">
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background:var(--emeraude)">É</span>
+      EduPlateforme <span style="color:var(--emeraude)">CI</span>
+    </div>
+    <nav class="flex flex-col gap-1 text-sm text-slate-600">
+      <a class="nav-link active px-3 py-2 rounded-lg" href="#" style="background:var(--emeraude-clair)">Tableau de bord</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="#">Mes matières</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="#">Groupes d'étude</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="#">Compositions</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="#">Mon profil</a>
+    </nav>
+    <button id="btn-logout" class="mt-auto text-sm text-slate-400 hover:text-red-500 text-left">Se déconnecter</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 p-5 md:p-10">
+
+    <!-- Header élève -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <p class="text-slate-500 text-sm">Bienvenue,</p>
+        <h1 id="nom-eleve" class="font-display text-2xl md:text-3xl font-bold">Chargement…</h1>
+      </div>
+      <div class="id-badge text-white rounded-xl px-5 py-3 flex items-center gap-3">
+        <div>
+          <p class="text-[10px] uppercase tracking-wider opacity-70">Ton ID unique</p>
+          <p id="edu-id" class="font-bold text-lg">EDU-2026-XXXX</p>
+        </div>
+        <button onclick="copierId()" title="Copier" class="opacity-80 hover:opacity-100">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Serveur de classe -->
+    <div class="card p-5 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-full flex items-center justify-center text-white font-display font-bold" style="background:var(--bleu-academique)">📡</div>
+        <div>
+          <p class="text-xs text-slate-500">Serveur virtuel</p>
+          <p id="server-nom" class="font-display font-semibold">Terminale D — Côte d'Ivoire</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 text-sm">
+        <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
+        <span id="server-actifs" class="text-slate-600">1 284 élèves actifs maintenant</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      <div class="card p-5">
+        <p class="text-xs text-slate-500 mb-1">Compositions faites</p>
+        <p id="stat-compos" class="font-display text-2xl font-bold">12</p>
+      </div>
+      <div class="card p-5">
+        <p class="text-xs text-slate-500 mb-1">Score moyen</p>
+        <p id="stat-score" class="font-display text-2xl font-bold" style="color:var(--emeraude)">14.8/20</p>
+      </div>
+      <div class="card p-5">
+        <p class="text-xs text-slate-500 mb-1">Groupes rejoints</p>
+        <p id="stat-groupes" class="font-display text-2xl font-bold">3</p>
+      </div>
+      <div class="card p-5">
+        <p class="text-xs text-slate-500 mb-1">Matière forte</p>
+        <p id="stat-matiere-forte" class="font-display text-2xl font-bold">Maths</p>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <!-- Mes matières -->
+      <div class="lg:col-span-2">
+        <h2 class="font-display text-xl font-bold mb-4">Mes matières</h2>
+        <div id="liste-matieres" class="grid sm:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- Actions -->
+      <div>
+        <h2 class="font-display text-xl font-bold mb-4">Composer maintenant</h2>
+        <div class="card p-5 mb-4">
+          <p class="font-semibold mb-1">En groupe d'étude</p>
+          <p class="text-sm text-slate-500 mb-4">Lance une composition commune avec ton groupe.</p>
+          <button class="w-full py-2.5 rounded-full text-white font-semibold" style="background:var(--bleu-academique)">Lancer avec mon groupe</button>
+        </div>
+        <div class="card p-5 mb-6">
+          <p class="font-semibold mb-1">Ligne ouverte</p>
+          <p class="text-sm text-slate-500 mb-4">Matchmaking public avec des élèves de ton niveau.</p>
+          <button class="w-full py-2.5 rounded-full text-white font-semibold" style="background:var(--emeraude)">Composer en ligne</button>
+        </div>
+
+        <h2 class="font-display text-xl font-bold mb-4">Ajouter un camarade</h2>
+        <div class="card p-5">
+          <label class="text-xs text-slate-500">ID de ton camarade</label>
+          <div class="flex gap-2 mt-2">
+            <input id="input-ajout-id" type="text" placeholder="EDU-2026-XXXX" class="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            <button onclick="ajouterCamarade()" class="px-4 rounded-lg text-white text-sm font-semibold" style="background:var(--bleu-nuit)">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Données de démonstration — à remplacer par la lecture Firestore réelle
+  // (voir firebase-config.js : chargerProfilEleve(uid))
+  const profilDemo = {
+    nom: "Aya Kouadio",
+    eduId: "EDU-2026-4821",
+    classe: "Terminale D",
+    ville: "Abidjan",
+    stats: { compositionsFaites: 12, scoreMoyen: 14.8, groupes: 3, matiereForte: "Maths" },
+    matieres: ["Mathématiques", "Physique-Chimie", "SVT", "Philosophie", "Anglais", "Français"]
+  };
+
+  function afficherProfil(p){
+    document.getElementById('nom-eleve').textContent = p.nom;
+    document.getElementById('edu-id').textContent = p.eduId;
+    document.getElementById('server-nom').textContent = p.classe + " — Côte d'Ivoire";
+    document.getElementById('stat-compos').textContent = p.stats.compositionsFaites;
+    document.getElementById('stat-score').textContent = p.stats.scoreMoyen + "/20";
+    document.getElementById('stat-groupes').textContent = p.stats.groupes;
+    document.getElementById('stat-matiere-forte').textContent = p.stats.matiereForte;
+
+    const cont = document.getElementById('liste-matieres');
+    cont.innerHTML = p.matieres.map(m => `
+      <div class="card p-4 hover:shadow-md transition cursor-pointer">
+        <p class="font-semibold mb-2">${m}</p>
+        <div class="flex gap-3 text-xs text-slate-500">
+          <span>📘 Leçons</span><span>🎬 Vidéos</span><span>📝 Exercices</span>
+        </div>
+      </div>`).join('');
+  }
+
+  function copierId(){
+    navigator.clipboard.writeText(document.getElementById('edu-id').textContent);
+  }
+
+  function ajouterCamarade(){
+    const id = document.getElementById('input-ajout-id').value.trim();
+    if(!id){ return; }
+    // Brancher ici : rechercher l'utilisateur par eduId dans Firestore, puis l'ajouter au groupe actif.
+    alert("Recherche de " + id + "… (branche la fonction ajouterMembreParEduId du firebase-config.js)");
+  }
+
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    // Brancher : import { deconnexion } from './firebase-config.js'
+    alert("Déconnexion (branche firebase-config.js)");
+  });
+
+  afficherProfil(profilDemo);
+</script>
+</body>
+</html>
