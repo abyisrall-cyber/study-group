@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complète ton profil — EduPlateforme CI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu-nuit:#0B2545; --bleu-academique:#1D4E89; --bleu-ciel:#4E8FE3;
+    --emeraude:#0E9F6E; --emeraude-clair:#D1FAE5; --blanc-casse:#F8FAFC;
+  }
+  body{font-family:'Inter',sans-serif; background:var(--blanc-casse); color:var(--bleu-nuit); margin:0;}
+  h1,h2,.font-display{font-family:'Space Grotesk',sans-serif;}
+  .card{background:#fff; border:1px solid #E5EEF9; border-radius:1.25rem;}
+  select,input{transition:.15s;}
+  select:focus,input:focus{outline:none; border-color:var(--bleu-ciel); box-shadow:0 0 0 3px rgba(78,143,227,.15);}
+  .step-dot{width:8px; height:8px; border-radius:9999px; background:#E2ECFA;}
+  .step-dot.active{background:var(--emeraude); width:24px; border-radius:9999px;}
+  .btn-primary{background:var(--emeraude); transition:.2s;}
+  .btn-primary:hover:not(:disabled){background:#0C8A5F;}
+  .btn-primary:disabled{opacity:.5; cursor:not-allowed;}
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-5">
+
+<div class="w-full max-w-lg">
+
+  <div class="text-center mb-8">
+    <div class="inline-flex items-center gap-2 font-display font-bold text-lg mb-6">
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background:var(--emeraude)">É</span>
+      EduPlateforme <span style="color:var(--emeraude)">CI</span>
+    </div>
+    <h1 class="font-display text-2xl md:text-3xl font-bold mb-2">Presque prêt(e) !</h1>
+    <p class="text-slate-500">Ces informations nous permettent de te placer sur le bon serveur de classe.</p>
+  </div>
+
+  <form id="form-onboarding" class="card p-6 md:p-8">
+
+    <!-- Étape 1 : établissement -->
+    <div class="mb-5">
+      <label class="text-sm font-semibold block mb-2">Ton établissement</label>
+      <input id="etablissement" type="text" required placeholder="ex: Collège Moderne de Cocody"
+        class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm">
+    </div>
+
+    <!-- Étape 2 : classe -->
+    <div class="mb-5">
+      <label class="text-sm font-semibold block mb-2">Ta classe</label>
+      <select id="classe" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+        <option value="">Sélectionne ta classe</option>
+        <optgroup label="Primaire">
+          <option value="CP1">CP1</option>
+          <option value="CP2">CP2</option>
+          <option value="CE1">CE1</option>
+          <option value="CE2">CE2</option>
+          <option value="CM1">CM1</option>
+          <option value="CM2">CM2</option>
+        </optgroup>
+        <optgroup label="Collège">
+          <option value="6EME">6ème</option>
+          <option value="5EME">5ème</option>
+          <option value="4EME">4ème</option>
+          <option value="3EME">3ème</option>
+        </optgroup>
+        <optgroup label="Lycée">
+          <option value="2NDE">2nde</option>
+          <option value="1ERE">1ère</option>
+          <option value="TERMINALE">Terminale</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <!-- Étape 3 : série (affichée seulement si lycée) -->
+    <div id="bloc-serie" class="mb-5 hidden">
+      <label class="text-sm font-semibold block mb-2">Ta série</label>
+      <select id="serie" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+        <option value="">Sélectionne ta série</option>
+        <option value="A">Série A</option>
+        <option value="C">Série C</option>
+        <option value="D">Série D</option>
+      </select>
+    </div>
+
+    <!-- Étape 4 : ville / région -->
+    <div class="grid grid-cols-2 gap-3 mb-6">
+      <div>
+        <label class="text-sm font-semibold block mb-2">Ville</label>
+        <input id="ville" type="text" required placeholder="ex: Abidjan"
+          class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm">
+      </div>
+      <div>
+        <label class="text-sm font-semibold block mb-2">Région</label>
+        <select id="region" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+          <option value="">Choisir</option>
+          <option>Abidjan</option>
+          <option>Bas-Sassandra</option>
+          <option>Comoé</option>
+          <option>Denguélé</option>
+          <option>Gôh-Djiboua</option>
+          <option>Lacs</option>
+          <option>Lagunes</option>
+          <option>Montagnes</option>
+          <option>Sassandra-Marahoué</option>
+          <option>Savanes</option>
+          <option>Vallée du Bandama</option>
+          <option>Woroba</option>
+          <option>Yamoussoukro</option>
+          <option>Zanzan</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="erreur" class="hidden text-sm text-red-500 mb-4"></div>
+
+    <button id="btn-valider" type="submit" class="btn-primary w-full text-white font-semibold py-3.5 rounded-full">
+      Rejoindre mon serveur de classe →
+    </button>
+  </form>
+
+  <div class="flex justify-center gap-2 mt-6">
+    <span class="step-dot active"></span>
+    <span class="step-dot"></span>
+  </div>
+</div>
+
+<script type="module">
+  import { observerConnexion, finaliserProfil, auth } from './firebase-config.js';
+
+  // Redirige vers l'accueil si l'élève n'est pas connecté
+  let uidCourant = null;
+  observerConnexion((user) => {
+    if (!user) {
+      window.location.href = '/index.html';
+    } else {
+      uidCourant = user.uid;
+    }
+  });
+
+  const classeSelect = document.getElementById('classe');
+  const blocSerie = document.getElementById('bloc-serie');
+  const serieSelect = document.getElementById('serie');
+  const NIVEAUX_AVEC_SERIE = ['2NDE', '1ERE', 'TERMINALE'];
+
+  classeSelect.addEventListener('change', () => {
+    if (NIVEAUX_AVEC_SERIE.includes(classeSelect.value)) {
+      blocSerie.classList.remove('hidden');
+      serieSelect.required = true;
+    } else {
+      blocSerie.classList.add('hidden');
+      serieSelect.required = false;
+      serieSelect.value = '';
+    }
+  });
+
+  const form = document.getElementById('form-onboarding');
+  const btnValider = document.getElementById('btn-valider');
+  const erreurDiv = document.getElementById('erreur');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    erreurDiv.classList.add('hidden');
+
+    if (!uidCourant) {
+      erreurDiv.textContent = "Connexion en cours, réessaie dans un instant.";
+      erreurDiv.classList.remove('hidden');
+      return;
+    }
+
+    const etablissement = document.getElementById('etablissement').value.trim();
+    const classe = classeSelect.value;
+    const serie = serieSelect.value || null;
+    const ville = document.getElementById('ville').value.trim();
+    const region = document.getElementById('region').value;
+
+    if (!etablissement || !classe || !ville || !region) {
+      erreurDiv.textContent = "Merci de remplir tous les champs.";
+      erreurDiv.classList.remove('hidden');
+      return;
+    }
+    if (NIVEAUX_AVEC_SERIE.includes(classe) && !serie) {
+      erreurDiv.textContent = "Sélectionne ta série (A, C ou D).";
+      erreurDiv.classList.remove('hidden');
+      return;
+    }
+
+    btnValider.disabled = true;
+    btnValider.textContent = "Création de ton serveur de classe…";
+
+    try {
+      await finaliserProfil(uidCourant, { etablissement, classe, serie, ville, region });
+      window.location.href = '/dashboard.html';
+    } catch (err) {
+      console.error(err);
+      erreurDiv.textContent = "Une erreur est survenue. Réessaie.";
+      erreurDiv.classList.remove('hidden');
+      btnValider.disabled = false;
+      btnValider.textContent = "Rejoindre mon serveur de classe →";
+    }
+  });
+</script>
+</body>
+</html>

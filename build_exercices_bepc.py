@@ -1,0 +1,376 @@
+# -*- coding: utf-8 -*-
+"""
+Construit exercices-bepc.json : sujets/corrigés BEPC structurés pour Firestore.
+Structure cible : matieres/{matiereId}/exercices/{exerciceId}
+"""
+import json
+
+exercices = []
+
+# ============================================================
+# 1. MATHÉMATIQUES — BEPC 2026 Zone I (sujet seul)
+# ============================================================
+exercices.append({
+    "matiereId": "mathematiques-3eme",
+    "id": "bepc-2026-maths-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Mathématiques - Zone I",
+    "session": 2026, "zone": "I", "coefficient": 3, "duree": "2h",
+    "difficulte": "difficile",
+    "parties": [
+        {"nom": "Exercice 1", "bareme": 2, "enonce":
+            "QCM : pour 4 énoncés (inverse de √5-2 ; solution du système {-2x+3y=8, x+2y=3} ; "
+            "classe modale d'une série statistique ; forme factorisée de x²-12x+36), choisir parmi 4 propositions laquelle est vraie."},
+        {"nom": "Exercice 2", "bareme": 3, "enonce":
+            "Vrai/Faux : colinéarité de vecteurs EK et EF (EK=-3/2 EF) ; parallélisme de deux droites (D1): y=-3x+4 et (D2): y=-1/3x+2 ; "
+            "angle inscrit/angle au centre sur un cercle (GMH=40°, GOH=20°) ; volume d'un cône (rayon 6cm, hauteur 10cm)."},
+        {"nom": "Exercice 3", "bareme": 3, "enonce":
+            "Application affine f telle que f(2)=1 et f(-1)=7. 1) Justifier que f est décroissante. "
+            "2) a) Justifier que f(x)=-2x+5. b) Calculer l'image de 1/2 par f."},
+        {"nom": "Exercice 4", "bareme": 4, "enonce":
+            "Plan muni d'un repère (O,I,J). Points E(-1;0), F(3;6), H(7;-1), K(1;3). "
+            "1) Justifier que EF a pour coordonnées (4;6). 2) Justifier que K est le milieu de [EF]. "
+            "3) Sachant que KH a pour coordonnées (6;-4), justifier que EF et KH sont orthogonaux."},
+        {"nom": "Exercice 5", "bareme": 4, "enonce":
+            "On donne 2√3-4 et √(28-16√3). 1) a) Comparer 2√3 et 4. b) Justifier que 2√3-4<0. "
+            "2) a) Justifier que (2√3-4)²=28-16√3. b) Justifier que √(28-16√3)=4-2√3. "
+            "3) Déterminer l'encadrement de 2√3-4 par deux décimaux consécutifs d'ordre 2 (1,732<√3<1,733)."},
+        {"nom": "Exercice 6", "bareme": 4, "enonce":
+            "Problème concret (carrelage d'une terrasse) : un père veut carreler une terrasse triangulaire (AC=10m, AB=8m, BC=6m) "
+            "avec deux types de carreaux A (0,25m², 900F) et B (0,30m², 1000F), zones délimitées par [MN] et [BE] parallèles "
+            "(AM=2m côté 8m, hauteur 6m, hypoténuse 2,5m au sommet). Budget 80 000F. "
+            "1) Justifier que AC=10m. 2) Justifier que MN=4,5m. 3) Déterminer si le budget est suffisant."},
+    ],
+    "corrige": None
+})
+
+# ============================================================
+# 2. PHYSIQUE-CHIMIE — BEPC 2026 Zone I (sujet + corrigé)
+# ============================================================
+exercices.append({
+    "matiereId": "physique-chimie-3eme",
+    "id": "bepc-2026-pc-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Physique-Chimie - Zone I",
+    "session": 2026, "zone": "I", "coefficient": 2, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Exercice 1 - Physique (5 pts)", "bareme": 5, "enonce":
+            "A) Relier chaque grandeur physique (énergie électrique, intensité, puissance électrique) à son unité "
+            "(ampère, watt, ohm, joule). B) Vrai/Faux sur les conducteurs ohmiques en série et leur caractéristique. "
+            "C) Texte à trous sur la myopie/hypermétropie (lentille convergente/divergente).",
+         "corrige":
+            "A) Énergie électrique→joule ; Intensité→ampère ; Puissance électrique→watt. "
+            "B) 1-Faux, 2-Vrai, 3-Vrai. "
+            "C) ...on dit qu'il est MYOPE et on le corrige avec une LENTILLE DIVERGENTE. Par contre, un œil qui ne voit pas "
+            "correctement de près est HYPERMÉTROPE et on le corrige avec une LENTILLE CONVERGENTE."},
+        {"nom": "Exercice 1 - Chimie (3 pts)", "bareme": 3, "enonce":
+            "A) Écrire l'équation-bilan de l'électrolyse de l'eau et de la réduction de l'oxyde ferrique par l'aluminium ; "
+            "définir un oxydant. B) Compléter des phrases sur le bleu de bromothymol, le pH d'une solution diluée, l'ion basique.",
+         "corrige":
+            "1.1 2H2O → 2H2 + O2 ; 1.2 Fe2O3 + 2Al → 2Fe + Al2O3. "
+            "Un oxydant est un corps qui capte un ou plusieurs électrons (accepté : qui cède/qui perd de l'oxygène selon variante). "
+            "B) 1. le BBT devient vert en solution neutre. 2. le pH augmente quand on dilue une solution acide. "
+            "3. l'ion hydroxyde (OH-) est responsable de la basicité."},
+        {"nom": "Exercice 2 (7 pts)", "bareme": 7, "enonce":
+            "TP : établir la relation entre poussée d'Archimède PA et poids du liquide déplacé PL. "
+            "Données : poids du solide dans l'air = 4,5N, poids apparent dans l'eau = 2,5N, V1=310cm³, V2=510cm³, g=10N/kg, ρeau=1kg/dm³. "
+            "1) Définir la poussée d'Archimède. 2) Donner le poids du solide. 3) Déterminer PA, le volume déplacé VL, et PL. "
+            "4) Écrire la relation entre PA et PL.",
+         "corrige":
+            "1) La poussée d'Archimède est la force exercée par un liquide (fluide) sur un corps immergé. "
+            "2) P=4,5N. 3.1) PA=P-P'=4,5-2,5=2N. 3.2) VL=V2-V1=510-310=200cm³. 3.3) PL=ρeau×VL×g=1×0,2×10=2N. "
+            "4) PA=PL."},
+        {"nom": "Exercice 3 (5 pts)", "bareme": 5, "enonce":
+            "Combustion du butane : deux produits formés, l'un trouble l'eau de chaux, l'autre bleuit le sulfate de cuivre anhydre. "
+            "1) Formule brute et formules semi-développées du butane. 2) Nommer les deux produits. "
+            "3) Équation-bilan de la combustion. 4) Deux effets néfastes sur l'environnement.",
+         "corrige":
+            "1.1) C4H10. 1.2) CH3-CH2-CH2-CH3 et CH3-CH(CH3)-CH3. "
+            "2.1) le dioxyde de carbone (trouble l'eau de chaux). 2.2) l'eau (bleuit le sulfate de cuivre anhydre). "
+            "3) 2C4H10 + 13O2 → 8CO2 + 10H2O. "
+            "4) Réchauffement climatique ; inondations (toute réponse correcte acceptée)."}
+    ]
+})
+
+# ============================================================
+# 3. HISTOIRE-GÉOGRAPHIE — BEPC 2026 Zone I (sujet + corrigé)
+# ============================================================
+exercices.append({
+    "matiereId": "histoire-geographie-3eme",
+    "id": "bepc-2026-hg-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Histoire-Géographie - Zone I",
+    "session": 2026, "zone": "I", "coefficient": 2, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Exercice I (4 pts)", "bareme": 4, "enonce":
+            "A) Vrai/Faux sur 4 affirmations (indépendance CI le 07/08/1960 ; crises socio-politiques cause du retard économique "
+            "africain ; Rwanda en Afrique australe ; Auschwitz camp nazi 2GM). "
+            "B) Classer des activités économiques ivoiriennes (montage automobile, transport, reboisement, raffinage du pétrole, "
+            "commerce extérieur, élevage, télécommunications, tourisme balnéaire) par secteur primaire/secondaire/tertiaire.",
+         "corrige":
+            "A) 1-Vrai, 2-Vrai, 3-Faux (Afrique de l'Est), 4-Vrai. "
+            "B) Primaire : reboisement, élevage. Secondaire : montage automobile, raffinage du pétrole. "
+            "Tertiaire : transport, commerce extérieur, télécommunications, tourisme balnéaire."},
+        {"nom": "Exercice II (10 pts)", "bareme": 10, "enonce":
+            "Conférence sur le développement économique de la CI : le conférencier affirme une économie solide grâce à la politique "
+            "de l'État et à la générosité du milieu naturel. 1) De quoi s'agit-il ? 2) Expliquer le rôle du milieu naturel. "
+            "3) Es-tu d'accord avec l'affirmation d'une économie solide ? Justifier.",
+         "corrige":
+            "1) Les facteurs/fondements/atouts politiques et naturels du développement économique de la Côte d'Ivoire. "
+            "2) Le milieu naturel participe au dynamisme via : un relief plat favorable aux infrastructures, un climat humide "
+            "propice à l'agriculture, un réseau hydrographique dense (barrages, pêche), une façade maritime (échanges commerciaux), "
+            "un sous-sol riche en minerais et ressources énergétiques. "
+            "3) Oui : agriculture performante (1er rang mondial cacao, 3e rang hévéa, 1er rang anacarde), secteur industriel en "
+            "plein essor, balance commerciale excédentaire, économie motrice de l'UEMOA, croissance soutenue (+6%/an)."},
+        {"nom": "Exercice III (6 pts)", "bareme": 6, "enonce":
+            "Construire la frise chronologique des étapes de la création de l'Union Africaine à partir des dates "
+            "(1999, 2000, 2001, 2002) et événements (déclaration de Syrte, adoption du traité constitutif, signature de l'acte "
+            "constitutif, lancement officiel à Durban). Donner un titre à la frise.",
+         "corrige":
+            "1999 : Déclaration de Syrte. 2000 : Adoption du traité constitutif. 2001 : Signature de l'acte constitutif de l'UA. "
+            "2002 : Lancement officiel de l'UA à Durban. Titre : « Les étapes de la création de l'Union Africaine »."}
+    ]
+})
+
+# ============================================================
+# 4. COMPOSITION FRANÇAISE — BEPC 2026 Zone I (sujet seul, au choix)
+# ============================================================
+exercices.append({
+    "matiereId": "francais-3eme",
+    "id": "bepc-2026-francaise-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Composition française - Zone I",
+    "session": 2026, "zone": "I", "coefficient": 2, "duree": "2h",
+    "difficulte": "difficile",
+    "parties": [
+        {"nom": "Premier sujet (au choix) - Texte argumentatif", "bareme": 20, "enonce":
+            "Lors d'une conférence sur l'école, le conférencier affirme : « L'école ne parvient pas à être un facteur de "
+            "cohésion sociale. » 1) Identifie le thème abordé (2 pts). 2) Reformule la thèse du conférencier (4 pts). "
+            "3) Rédige un texte argumentatif pour réfuter cette thèse (14 pts)."},
+        {"nom": "Deuxième sujet (au choix) - Résumé de texte argumentatif", "bareme": 20, "enonce":
+            "Texte de Karolina Grabowska, « Les réseaux sociaux : un tremplin pour les adolescents » (282 mots). "
+            "I) Questions (6 pts) : A- Compréhension : relever deux avantages des réseaux sociaux pour les adolescents (4pts) ; "
+            "quelle est la thèse réfutée par l'auteur (2pts). B- Vocabulaire : expliquer en contexte le mot « tremplins » (2pts). "
+            "II) Résumé (14 pts) : résumer le texte au tiers de son volume initial (marge de ±10% tolérée)."}
+    ],
+    "corrige": None
+})
+
+# ============================================================
+# 5. ALLEMAND LV2 — BEPC 2026 Zone I (sujet seul)
+# ============================================================
+exercices.append({
+    "matiereId": "allemand-3eme",
+    "id": "bepc-2026-allemand-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Langue vivante 2 : Allemand - Zone I",
+    "session": 2026, "zone": "I", "coefficient": 1, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Texte", "bareme": 0, "enonce":
+            "Texte « Wir feiern ein Fest in der Schule » : récit d'une élève sur le Lichterfest (fête des lumières) célébré à l'école."},
+        {"nom": "I. Textverständnis (6 pts)", "bareme": 6, "enonce":
+            "1) Richtig/Falsch (3 affirmations). 2) Recopier des phrases selon le texte. "
+            "3) Répondre aux questions : nom de la fête, ce que les enfants ont mangé, avis personnel sur les fêtes traditionnelles."},
+        {"nom": "II. Sprachkompetenz (10 pts)", "bareme": 10, "enonce":
+            "A) Vocabulaire : contraires de mots soulignés ; 3 mots liés à « Fest ». "
+            "B) Sprechbereich : réponses à des situations (anniversaire, nouvel an). "
+            "C) Grammaire : mettre des phrases au futur I ; relier des propositions (ob/wenn/dass). "
+            "D) Traduction français ↔ allemand."},
+        {"nom": "III. Freie Produktion (4 pts)", "bareme": 4, "enonce":
+            "Décrire à un correspondant allemand curieux : 1) Nommer deux fêtes ivoiriennes. 2) Raconter une fête vécue."}
+    ],
+    "corrige": None
+})
+
+# ============================================================
+# 6. ESPAGNOL LV2 — BEPC 2026 Zone I (sujet seul)
+# ============================================================
+exercices.append({
+    "matiereId": "espagnol-3eme",
+    "id": "bepc-2026-espagnol-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Langue vivante 2 : Espagnol - Zone I",
+    "session": 2026, "zone": "I", "coefficient": 1, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Texte", "bareme": 0, "enonce":
+            "Texte « La juventud e internet » : la relation entre jeunesse et internet, opportunités (accès à l'information, "
+            "apprentissage) et risques (ciberacoso, addiction aux réseaux sociaux)."},
+        {"nom": "A. Comprensión (10 pts)", "bareme": 10, "enonce":
+            "I) QCM à 4 questions sur le texte. II) Vrai/Faux sur 6 idées. III) Remettre 6 phrases dans l'ordre chronologique."},
+        {"nom": "B. Uso de la lengua (5 pts)", "bareme": 5, "enonce":
+            "I) Relier 5 mots à leurs antonymes (jóvenes/ancianos, ventajas/inconvenientes, global/particular, virtual/real, "
+            "concluir/introducir). II) Donner l'infinitif dérivé de 5 substantifs (educación, crecimiento, exposición, "
+            "producción, creación)."},
+        {"nom": "C. Producción (5 pts)", "bareme": 5, "enonce":
+            "Rédiger un article de 6 lignes pour donner son opinion sur les usages d'internet, après une conférence à "
+            "l'Ambassade d'Espagne. Enumérer deux expressions pour donner une opinion."}
+    ],
+    "corrige": None
+})
+
+# ============================================================
+# 7-9. ANGLAIS LV1 — BEPC 2026 Zones I / II / III (sujet 2026 ; corrigé zone I seulement)
+# ============================================================
+exercices.append({
+    "matiereId": "anglais-3eme",
+    "id": "bepc-2026-anglais-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Langue vivante 1 : Anglais - Zone I (Sport and Education)",
+    "session": 2026, "zone": "I", "coefficient": 1, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Part One: Reading (8 pts)", "bareme": 8, "enonce":
+            "Texte 'Sport and Education' : bienfaits du sport à l'école (confiance, discipline, réussite scolaire, cohésion nationale). "
+            "A) Vocabulary check : relier 9 mots à leur synonyme. B) 4 questions de compréhension.",
+         "corrige":
+            "A) 1-f (confidence), 2-h (idea), 3-j (absence of success), 4-g (point of view), 5-a (good times and bad times), "
+            "6-c (probable), 7-e (favours), 8-d (honour), 9-b (established). "
+            "B) 1) Sport develops discipline and confidence, and reinforces bones and muscles. "
+            "2) Yes, students who compete in sports get better grades and graduate at higher rates. "
+            "3) Sport helps students avoid drugs, unplanned pregnancies and depression. "
+            "4) Sport promotes unity, national pride, cooperation and peaceful citizenship."},
+        {"nom": "Part Two: Language in Use (6 pts)", "bareme": 6, "enonce":
+            "Task 1 : compléter un texte à trous sur le sport et l'éducation (for/in/between/at). "
+            "Task 2 : choisir la bonne forme verbale dans un texte sur la santé.",
+         "corrige":
+            "Task 1 : 1-between, 2-in, 3-for, 4-at. Task 2 : 1-helps, 2-playing, 3-will feel, 4-thought."},
+        {"nom": "Part Three: Writing (6 pts)", "bareme": 6, "enonce":
+            "Compléter une conversation en ligne avec un ami libérien sur les bienfaits du sport (6 réponses à rédiger).",
+         "corrige":
+            "Réponses modèles fournies dans le corrigé officiel (accepter toute réponse cohérente affirmant la pratique du "
+            "sport à l'école, sa fréquence, le sport préféré et ses bienfaits pour la santé et la concentration)."}
+    ]
+})
+
+exercices.append({
+    "matiereId": "anglais-3eme",
+    "id": "bepc-2026-anglais-zone2",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Langue vivante 1 : Anglais - Zone II (The Seed of Education)",
+    "session": 2026, "zone": "II", "coefficient": 1, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Part One: Reading (8 pts)", "bareme": 8, "enonce":
+            "Texte 'The Seed of Education' (extrait de Journeys of an African Father) : un père envoie son fils à l'école "
+            "malgré les traditions, l'éducation comme graine porteuse de fruits pour la famille. "
+            "A) Vocabulary check (9 mots). B) 4 questions de compréhension."},
+        {"nom": "Part Two: Language in Use (6 pts)", "bareme": 6, "enonce":
+            "Task 1 : texte à trous sur l'école (with/for/in/at/about). Task 2 : choisir la bonne forme verbale."},
+        {"nom": "Part Three: Writing (6 pts)", "bareme": 6, "enonce":
+            "Compléter une conversation téléphonique avec un ami ghanéen sur l'importance de l'école (6 réponses)."}
+    ],
+    "corrige": None
+})
+
+exercices.append({
+    "matiereId": "anglais-3eme",
+    "id": "bepc-2026-anglais-zone3",
+    "type": "examen_national",
+    "titre": "BEPC 2026 - Langue vivante 1 : Anglais - Zone III (Ali's Story)",
+    "session": 2026, "zone": "III", "coefficient": 1, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Part One: Reading (8 pts)", "bareme": 8, "enonce":
+            "Texte 'Ali's Story' : un accord de triche aux examens qui se retourne contre son instigateur (moralité : "
+            "l'honnêteté paie). A) Vocabulary check (9 mots). B) 4 questions de compréhension."},
+        {"nom": "Part Two: Language in Use (6 pts)", "bareme": 6, "enonce":
+            "Task 1 : texte à trous sur la triche à l'école (of/to/in/back/on). Task 2 : choisir la bonne forme verbale."},
+        {"nom": "Part Three: Writing (6 pts)", "bareme": 6, "enonce":
+            "Compléter un dialogue où l'on refuse d'aider un ami libérien à tricher (6 réponses), en expliquant les raisons "
+            "de son honnêteté."}
+    ],
+    "corrige": None
+})
+
+# ============================================================
+# 10-12. ANGLAIS LV1 — BEPC 2025 Zones I / II / III (référence, sujet+corrigé quand disponible)
+# ============================================================
+exercices.append({
+    "matiereId": "anglais-3eme",
+    "id": "bepc-2025-anglais-zone1",
+    "type": "examen_national",
+    "titre": "BEPC 2025 - Langue vivante 1 : Anglais - Zone I (City and Village)",
+    "session": 2025, "zone": "I", "coefficient": 1, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Part One: Reading Comprehension (8 pts)", "bareme": 8, "enonce":
+            "Texte 'City and Village' : comparaison entre vie urbaine et vie rurale (avantages/inconvénients de chacune). "
+            "A) Vocabulary check : choisir le bon sens pour 9 mots. B) Vrai/Faux avec justification (lignes) pour 9 affirmations.",
+         "corrige":
+            "A) 1-a, 2-d, 3-c, 4-b, 5-a, 6-d, 7-d, 8-a, 9-b. "
+            "B) 2-T(L2-3), 3-T(L4), 4-F(L4-5), 5-T(L7), 6-T(L10-11), 7-F(L11-12), 8-F(L12-13), 9-T(L13-14)."},
+        {"nom": "Part Two: Language in Use (6 pts)", "bareme": 6, "enonce":
+            "Task 1 : choisir la bonne forme parmi des options entre parenthèses (texte sur les inconvénients du village). "
+            "Task 2 : compléter un texte à trous sur ville/village (on/in/to/with/of).",
+         "corrige":
+            "Task 1 : 2-don't have, 3-are, 4-can. Task 2 : 2-to, 3-on, 4-in."},
+        {"nom": "Part Three: Writing (6 pts)", "bareme": 6, "enonce":
+            "Lettre à une amie nigériane qui veut déménager en ville : identifier 3 avantages de la ville, 3 difficultés, "
+            "donner son avis sur sa décision (max 12 lignes).",
+         "corrige":
+            "Barème : Layout (2 pts) ; Contenu - 3 avantages, 3 difficultés, avis exprimé (3 pts) ; Mechanics - correction "
+            "de la langue et cohérence (1 pt)."}
+    ]
+})
+
+exercices.append({
+    "matiereId": "anglais-3eme",
+    "id": "bepc-2025-anglais-zone2",
+    "type": "examen_national",
+    "titre": "BEPC 2025 - Langue vivante 1 : Anglais - Zone II (How to Integrate Urban Youths)",
+    "session": 2025, "zone": "II", "coefficient": 1, "duree": "2h",
+    "difficulte": "difficile",
+    "parties": [
+        {"nom": "Part One: Reading for Comprehension (8 pts)", "bareme": 8, "enonce":
+            "Texte sur les 'Children in Conflict with the Law' à Abidjan : phénomène de violence urbaine chez les jeunes, "
+            "causes (exclusion, manque d'opportunités, stigmatisation) et échec des réponses actuelles. "
+            "A) Vocabulary check : relier 9 mots à leur synonyme. B) 4 questions de compréhension."},
+        {"nom": "Part Two: Language in Use (6 pts)", "bareme": 6, "enonce":
+            "Task 1 : choisir la bonne forme verbale dans un texte sur les 'microbes'. "
+            "Task 2 : réécrire 4 phrases à la voix passive en commençant par le mot souligné."},
+        {"nom": "Part Three: Writing (6 pts)", "bareme": 6, "enonce":
+            "Article pour le magazine TIMES dénonçant le phénomène des 'Children in Conflict with the Law' : définir le "
+            "phénomène, décrire leurs actes, suggérer 3 solutions."}
+    ],
+    "corrige": None
+})
+
+exercices.append({
+    "matiereId": "anglais-3eme",
+    "id": "bepc-2025-anglais-zone3",
+    "type": "examen_national",
+    "titre": "BEPC 2025 - Langue vivante 1 : Anglais - Zone III (Fashion All Over the World)",
+    "session": 2025, "zone": "III", "coefficient": 1, "duree": "2h",
+    "difficulte": "moyen",
+    "parties": [
+        {"nom": "Part One: Reading Comprehension (8 pts)", "bareme": 8, "enonce":
+            "Texte sur l'histoire et la mondialisation de la mode (Paris, Londres, Milan comme capitales de la mode). "
+            "A) Vocabulary check : retrouver dans le texte les mots correspondant à 9 définitions. B) 4 questions de compréhension.",
+         "corrige":
+            "A) 2-collections, 3-afford, 4-designer, 5-garments, 6-brands, 7-wear, 8-bridal, 9-outfits. "
+            "B) 1) They look to cities like London and Paris (Milan) for their inspiration and to buy the latest trends. "
+            "2) The fashion scene changes with every season (4 collections: Spring, Summer, Autumn, Winter). "
+            "3) As economies grew and people became more affluent (had more money). "
+            "4) Yes, young people and their parents feel very proud of the brands they wear."},
+        {"nom": "Part Two: Language in Use (6 pts)", "bareme": 6, "enonce":
+            "Task 1 : dialogue à trous sur un défilé de mode (in/at/to). Task 2 : compléter un texte avec des pronoms "
+            "(theirs/them/their/themselves/they).",
+         "corrige":
+            "Task 1 : 2-in, 3-in, 4-to. Task 2 : 2-them, 3-their, 4-themselves."},
+        {"nom": "Part Three: Writing (6 pts)", "bareme": 6, "enonce":
+            "Article pour le magazine du club d'anglais décrivant un défilé de mode auquel on a assisté à Accra : lister "
+            "les participants, décrire leurs tenues, exprimer ses impressions.",
+         "corrige":
+            "Barème : titre de l'article (1 pt) ; liste des participants (1 pt) ; description des vêtements (1 pt) ; "
+            "sentiments exprimés (1 pt) ; correction de la langue (2 pts)."}
+    ]
+})
+
+with open("/home/claude/eduplateforme/import/exercices-bepc.json", "w", encoding="utf-8") as f:
+    json.dump(exercices, f, ensure_ascii=False, indent=2)
+
+print(f"{len(exercices)} sujets exportés.")

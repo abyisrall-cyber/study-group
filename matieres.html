@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mes matières — EduPlateforme CI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu-nuit:#0B2545; --bleu-academique:#1D4E89; --bleu-ciel:#4E8FE3;
+    --emeraude:#0E9F6E; --emeraude-clair:#D1FAE5; --blanc-casse:#F8FAFC;
+  }
+  body{font-family:'Inter',sans-serif; background:var(--blanc-casse); color:var(--bleu-nuit); margin:0;}
+  h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
+  .card{background:#fff; border:1px solid #E5EEF9; border-radius:1rem;}
+  .nav-link.active{color:var(--emeraude); font-weight:600;}
+  .tab{border-bottom:2px solid transparent; color:#64748b;}
+  .tab.active{border-color:var(--emeraude); color:var(--bleu-nuit); font-weight:600;}
+  .matiere-card.selected{border-color:var(--emeraude); box-shadow:0 0 0 3px var(--emeraude-clair);}
+  .diff-facile{background:#D1FAE5;color:#065F46;}
+  .diff-moyen{background:#FEF3C7;color:#92400E;}
+  .diff-difficile{background:#FEE2E2;color:#991B1B;}
+</style>
+</head>
+<body>
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR (identique au dashboard) -->
+  <aside class="w-64 bg-white border-r border-slate-100 hidden md:flex flex-col p-6 sticky top-0 h-screen">
+    <div class="flex items-center gap-2 font-display font-bold text-lg mb-10">
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background:var(--emeraude)">É</span>
+      EduPlateforme <span style="color:var(--emeraude)">CI</span>
+    </div>
+    <nav class="flex flex-col gap-1 text-sm text-slate-600">
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/dashboard.html">Tableau de bord</a>
+      <a class="nav-link active px-3 py-2 rounded-lg" href="/matieres.html" style="background:var(--emeraude-clair)">Mes matières</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/groupes.html">Groupes d'étude</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/compositions.html">Compositions</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="#">Mon profil</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 p-5 md:p-10">
+    <h1 class="font-display text-2xl md:text-3xl font-bold mb-6">Mes matières</h1>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+
+      <!-- Colonne liste des matières -->
+      <div id="liste-matieres" class="lg:col-span-1 space-y-3"></div>
+
+      <!-- Colonne détail matière -->
+      <div class="lg:col-span-2">
+        <div id="detail-matiere" class="card p-6">
+          <p class="text-slate-400 text-sm">Sélectionne une matière à gauche pour voir les leçons, vidéos et exercices.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+  // import { db } from './firebase-config.js';
+  // import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
+
+  // --- Données de démo : à remplacer par une lecture Firestore réelle ---
+  // matieres/{matiereId} + sous-collections lecons / videos / exercices (voir 01-architecture-base-de-donnees.md)
+  const matieresDemo = [
+    {
+      id: "maths-tled", nom: "Mathématiques", icone: "📐",
+      lecons: [
+        { titre: "Suites numériques : convergence", duree: "12 min" },
+        { titre: "Probabilités conditionnelles", duree: "9 min" }
+      ],
+      videos: [
+        { titre: "Résoudre une limite en 5 minutes", duree: "5:12" },
+        { titre: "Intégrales : méthode par parties", duree: "8:47" }
+      ],
+      exercices: [
+        { titre: "BAC 2024 - Session normale", type: "examen_national", difficulte: "difficile" },
+        { titre: "Quiz : dérivées usuelles", type: "quiz", difficulte: "facile" }
+      ]
+    },
+    {
+      id: "svt-tled", nom: "SVT", icone: "🧬",
+      lecons: [{ titre: "La méiose et la variabilité génétique", duree: "14 min" }],
+      videos: [{ titre: "Expérience : mitose sous microscope", duree: "6:30" }],
+      exercices: [{ titre: "Application : brassage génétique", type: "application", difficulte: "moyen" }]
+    },
+    {
+      id: "philo-tled", nom: "Philosophie", icone: "🧠",
+      lecons: [{ titre: "La conscience et l'inconscient", duree: "18 min" }],
+      videos: [{ titre: "Méthodo dissertation en 10 points", duree: "11:20" }],
+      exercices: [{ titre: "BAC 2023 - Sujet 2", type: "examen_national", difficulte: "difficile" }]
+    },
+    {
+      id: "anglais-tled", nom: "Anglais", icone: "🇬🇧",
+      lecons: [{ titre: "Reported speech", duree: "7 min" }],
+      videos: [{ titre: "Listening : accents britanniques", duree: "4:15" }],
+      exercices: [{ titre: "Quiz : phrasal verbs", type: "quiz", difficulte: "facile" }]
+    }
+  ];
+
+  const listeEl = document.getElementById('liste-matieres');
+  const detailEl = document.getElementById('detail-matiere');
+  let matiereActive = null;
+
+  function rendreListe(){
+    listeEl.innerHTML = matieresDemo.map(m => `
+      <div class="matiere-card card p-4 cursor-pointer flex items-center gap-3 ${matiereActive===m.id ? 'selected':''}" data-id="${m.id}">
+        <span class="text-2xl">${m.icone}</span>
+        <div>
+          <p class="font-semibold">${m.nom}</p>
+          <p class="text-xs text-slate-500">${m.lecons.length} leçons · ${m.exercices.length} exercices</p>
+        </div>
+      </div>`).join('');
+
+    listeEl.querySelectorAll('.matiere-card').forEach(el => {
+      el.addEventListener('click', () => {
+        matiereActive = el.dataset.id;
+        rendreListe();
+        rendreDetail(matiereActive);
+      });
+    });
+  }
+
+  function rendreDetail(id){
+    const m = matieresDemo.find(x => x.id === id);
+    detailEl.innerHTML = `
+      <div class="flex items-center gap-3 mb-6">
+        <span class="text-3xl">${m.icone}</span>
+        <h2 class="font-display text-xl font-bold">${m.nom}</h2>
+      </div>
+      <div class="flex gap-6 border-b border-slate-100 mb-5" id="tabs">
+        <button class="tab active py-2" data-tab="lecons">Leçons</button>
+        <button class="tab py-2" data-tab="videos">Vidéos</button>
+        <button class="tab py-2" data-tab="exercices">Exercices</button>
+      </div>
+      <div id="tab-content"></div>
+    `;
+
+    const tabs = detailEl.querySelectorAll('.tab');
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      rendreOnglet(m, t.dataset.tab);
+    }));
+    rendreOnglet(m, 'lecons');
+  }
+
+  function rendreOnglet(m, onglet){
+    const cont = detailEl.querySelector('#tab-content');
+    if (onglet === 'lecons') {
+      cont.innerHTML = m.lecons.map(l => `
+        <div class="flex items-center justify-between py-3 border-b border-slate-50">
+          <div class="flex items-center gap-3">
+            <span>📘</span><p class="font-medium text-sm">${l.titre}</p>
+          </div>
+          <span class="text-xs text-slate-400">${l.duree}</span>
+        </div>`).join('');
+    } else if (onglet === 'videos') {
+      cont.innerHTML = m.videos.map(v => `
+        <div class="flex items-center justify-between py-3 border-b border-slate-50">
+          <div class="flex items-center gap-3">
+            <span>🎬</span><p class="font-medium text-sm">${v.titre}</p>
+          </div>
+          <span class="text-xs text-slate-400">${v.duree}</span>
+        </div>`).join('');
+    } else {
+      cont.innerHTML = m.exercices.map(e => `
+        <div class="flex items-center justify-between py-3 border-b border-slate-50">
+          <div class="flex items-center gap-3">
+            <span>📝</span><p class="font-medium text-sm">${e.titre}</p>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-full diff-${e.difficulte}">${e.difficulte}</span>
+        </div>`).join('');
+    }
+  }
+
+  rendreListe();
+</script>
+</body>
+</html>

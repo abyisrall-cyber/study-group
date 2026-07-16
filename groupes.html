@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groupes d'étude — EduPlateforme CI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu-nuit:#0B2545; --bleu-academique:#1D4E89; --bleu-ciel:#4E8FE3;
+    --emeraude:#0E9F6E; --emeraude-clair:#D1FAE5; --blanc-casse:#F8FAFC;
+  }
+  body{font-family:'Inter',sans-serif; background:var(--blanc-casse); color:var(--bleu-nuit); margin:0;}
+  h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
+  .card{background:#fff; border:1px solid #E5EEF9; border-radius:1rem;}
+  .nav-link.active{color:var(--emeraude); font-weight:600;}
+  .groupe-item.selected{border-color:var(--emeraude); background:var(--emeraude-clair);}
+  .bulle-moi{background:var(--bleu-academique); color:#fff; border-radius:14px 14px 3px 14px;}
+  .bulle-autre{background:#F1F5F9; color:var(--bleu-nuit); border-radius:14px 14px 14px 3px;}
+  #chat-scroll{scroll-behavior:smooth;}
+  .pastille-active{width:8px;height:8px;border-radius:9999px;background:#22c55e;}
+</style>
+</head>
+<body>
+<div class="flex min-h-screen">
+
+  <aside class="w-64 bg-white border-r border-slate-100 hidden md:flex flex-col p-6 sticky top-0 h-screen">
+    <div class="flex items-center gap-2 font-display font-bold text-lg mb-10">
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background:var(--emeraude)">É</span>
+      EduPlateforme <span style="color:var(--emeraude)">CI</span>
+    </div>
+    <nav class="flex flex-col gap-1 text-sm text-slate-600">
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/dashboard.html">Tableau de bord</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/matieres.html">Mes matières</a>
+      <a class="nav-link active px-3 py-2 rounded-lg" href="/groupes.html" style="background:var(--emeraude-clair)">Groupes d'étude</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/compositions.html">Compositions</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="#">Mon profil</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 p-5 md:p-10">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="font-display text-2xl md:text-3xl font-bold">Groupes d'étude</h1>
+      <button onclick="document.getElementById('modal-creer').classList.remove('hidden')"
+        class="text-white text-sm font-semibold px-4 py-2 rounded-full" style="background:var(--emeraude)">
+        + Créer un groupe
+      </button>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6 h-[70vh]">
+
+      <!-- Liste des groupes -->
+      <div class="lg:col-span-1 space-y-3 overflow-y-auto pr-1" id="liste-groupes"></div>
+
+      <!-- Zone de chat -->
+      <div class="lg:col-span-2 card flex flex-col overflow-hidden">
+        <div id="chat-header" class="p-4 border-b border-slate-100 flex items-center justify-between">
+          <p class="text-slate-400 text-sm">Sélectionne un groupe pour ouvrir la discussion.</p>
+        </div>
+        <div id="chat-scroll" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+        <form id="form-message" class="p-3 border-t border-slate-100 flex gap-2 hidden">
+          <input id="input-message" type="text" placeholder="Écris un message…" autocomplete="off"
+            class="flex-1 border border-slate-200 rounded-full px-4 py-2 text-sm">
+          <button type="submit" class="px-5 rounded-full text-white text-sm font-semibold" style="background:var(--bleu-academique)">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal création groupe -->
+<div id="modal-creer" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-5 z-50">
+  <div class="card p-6 w-full max-w-sm">
+    <h2 class="font-display font-bold text-lg mb-4">Nouveau groupe d'étude</h2>
+    <label class="text-sm font-semibold block mb-2">Nom du groupe</label>
+    <input id="nom-nouveau-groupe" type="text" placeholder="ex: Les cracks de la Tale D"
+      class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-4">
+    <div class="flex gap-2">
+      <button onclick="document.getElementById('modal-creer').classList.add('hidden')"
+        class="flex-1 py-2.5 rounded-full border border-slate-200 text-sm font-semibold">Annuler</button>
+      <button onclick="creerNouveauGroupe()" class="flex-1 py-2.5 rounded-full text-white text-sm font-semibold" style="background:var(--emeraude)">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal ajouter membre -->
+<div id="modal-ajouter" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-5 z-50">
+  <div class="card p-6 w-full max-w-sm">
+    <h2 class="font-display font-bold text-lg mb-4">Ajouter un camarade</h2>
+    <label class="text-sm font-semibold block mb-2">Son ID unique</label>
+    <input id="eduid-a-ajouter" type="text" placeholder="EDU-2026-XXXX"
+      class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-4">
+    <div class="flex gap-2">
+      <button onclick="document.getElementById('modal-ajouter').classList.add('hidden')"
+        class="flex-1 py-2.5 rounded-full border border-slate-200 text-sm font-semibold">Annuler</button>
+      <button onclick="confirmerAjoutMembre()" class="flex-1 py-2.5 rounded-full text-white text-sm font-semibold" style="background:var(--bleu-academique)">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import {
+    observerConnexion, db, creerGroupe, ajouterMembreParEduId,
+    ecouterMessagesGroupe, envoyerMessageGroupe
+  } from './firebase-config.js';
+  import { doc, getDoc, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+  let uidCourant = null, profilCourant = null, groupeActifId = null, arreterEcouteMessages = null;
+
+  observerConnexion(async (user) => {
+    if (!user) { window.location.href = '/index.html'; return; }
+    uidCourant = user.uid;
+    const snap = await getDoc(doc(db, "users", uidCourant));
+    profilCourant = snap.exists() ? snap.data() : null;
+    chargerMesGroupes();
+  });
+
+  function chargerMesGroupes(){
+    // Écoute en direct tous les groupes dont l'élève est membre (comparaison sur uid dans le tableau membres
+    // nécessite une requête array-contains sur un champ dédié ; ici on illustre avec les groupeIds du profil).
+    const listeEl = document.getElementById('liste-groupes');
+    if (!profilCourant || !profilCourant.groupeIds || profilCourant.groupeIds.length === 0) {
+      listeEl.innerHTML = `<p class="text-sm text-slate-400 p-3">Tu n'as encore rejoint aucun groupe. Crée-en un pour commencer !</p>`;
+      return;
+    }
+    // Démo statique le temps que tu branches la vraie requête (where(documentId(), 'in', profilCourant.groupeIds))
+    listeEl.innerHTML = profilCourant.groupeIds.map(id => `
+      <div class="groupe-item card p-4 cursor-pointer" data-id="${id}">
+        <div class="flex items-center justify-between">
+          <p class="font-semibold text-sm">Groupe ${id.slice(0,6)}…</p>
+          <span class="pastille-active"></span>
+        </div>
+      </div>`).join('');
+    listeEl.querySelectorAll('.groupe-item').forEach(el => {
+      el.addEventListener('click', () => ouvrirGroupe(el.dataset.id));
+    });
+  }
+
+  window.creerNouveauGroupe = async function(){
+    const nom = document.getElementById('nom-nouveau-groupe').value.trim();
+    if (!nom || !profilCourant) return;
+    const id = await creerGroupe(nom, profilCourant.classe, uidCourant, profilCourant.nom, profilCourant.eduId);
+    document.getElementById('modal-creer').classList.add('hidden');
+    profilCourant.groupeIds = [...(profilCourant.groupeIds||[]), id];
+    chargerMesGroupes();
+    ouvrirGroupe(id);
+  };
+
+  window.confirmerAjoutMembre = async function(){
+    const eduId = document.getElementById('eduid-a-ajouter').value.trim();
+    if (!eduId || !groupeActifId) return;
+    try {
+      await ajouterMembreParEduId(groupeActifId, eduId);
+      document.getElementById('modal-ajouter').classList.add('hidden');
+      alert("Camarade ajouté au groupe !");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  function ouvrirGroupe(id){
+    groupeActifId = id;
+    document.querySelectorAll('.groupe-item').forEach(el => el.classList.toggle('selected', el.dataset.id === id));
+
+    document.getElementById('chat-header').innerHTML = `
+      <p class="font-semibold text-sm">Groupe ${id.slice(0,6)}…</p>
+      <button onclick="document.getElementById('modal-ajouter').classList.remove('hidden')"
+        class="text-xs font-semibold px-3 py-1.5 rounded-full" style="background:var(--emeraude-clair); color:var(--bleu-nuit)">
+        + Ajouter un camarade
+      </button>`;
+    document.getElementById('form-message').classList.remove('hidden');
+
+    if (arreterEcouteMessages) arreterEcouteMessages();
+    const scrollEl = document.getElementById('chat-scroll');
+    arreterEcouteMessages = ecouterMessagesGroupe(id, (messages) => {
+      scrollEl.innerHTML = messages.map(m => `
+        <div class="flex ${m.auteurId===uidCourant ? 'justify-end':'justify-start'}">
+          <div class="max-w-[75%] px-4 py-2 text-sm ${m.auteurId===uidCourant ? 'bulle-moi':'bulle-autre'}">
+            ${m.auteurId!==uidCourant ? `<p class="text-[11px] opacity-70 mb-0.5">${m.auteurNom}</p>` : ''}
+            ${m.texte}
+          </div>
+        </div>`).join('');
+      scrollEl.scrollTop = scrollEl.scrollHeight;
+    });
+  }
+
+  document.getElementById('form-message').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('input-message');
+    const texte = input.value.trim();
+    if (!texte || !groupeActifId) return;
+    input.value = '';
+    await envoyerMessageGroupe(groupeActifId, uidCourant, profilCourant.nom, texte);
+  });
+</script>
+</body>
+</html>

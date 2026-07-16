@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compositions — EduPlateforme CI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu-nuit:#0B2545; --bleu-academique:#1D4E89; --bleu-ciel:#4E8FE3;
+    --emeraude:#0E9F6E; --emeraude-clair:#D1FAE5; --blanc-casse:#F8FAFC;
+  }
+  body{font-family:'Inter',sans-serif; background:var(--blanc-casse); color:var(--bleu-nuit); margin:0;}
+  h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;}
+  .card{background:#fff; border:1px solid #E5EEF9; border-radius:1rem;}
+  .nav-link.active{color:var(--emeraude); font-weight:600;}
+  .barre-fond{background:#E2ECFA;}
+  .barre-remplie{background:var(--emeraude); transition:width .4s ease;}
+  .chrono{font-family:'Space Grotesk',monospace; font-variant-numeric:tabular-nums;}
+  .choix-btn{border:1px solid #E5EEF9; transition:.15s;}
+  .choix-btn:hover{border-color:var(--bleu-ciel);}
+  .choix-btn.selectionne{border-color:var(--emeraude); background:var(--emeraude-clair);}
+</style>
+</head>
+<body>
+<div class="flex min-h-screen">
+
+  <aside class="w-64 bg-white border-r border-slate-100 hidden md:flex flex-col p-6 sticky top-0 h-screen">
+    <div class="flex items-center gap-2 font-display font-bold text-lg mb-10">
+      <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background:var(--emeraude)">É</span>
+      EduPlateforme <span style="color:var(--emeraude)">CI</span>
+    </div>
+    <nav class="flex flex-col gap-1 text-sm text-slate-600">
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/dashboard.html">Tableau de bord</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/matieres.html">Mes matières</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="/groupes.html">Groupes d'étude</a>
+      <a class="nav-link active px-3 py-2 rounded-lg" href="/compositions.html" style="background:var(--emeraude-clair)">Compositions</a>
+      <a class="nav-link px-3 py-2 rounded-lg hover:bg-slate-50" href="#">Mon profil</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 p-5 md:p-10">
+    <h1 class="font-display text-2xl md:text-3xl font-bold mb-6">Compositions</h1>
+
+    <!-- ÉCRAN 1 : choix du mode -->
+    <div id="ecran-choix" class="grid md:grid-cols-2 gap-6 max-w-3xl">
+      <div class="card p-6">
+        <div class="w-11 h-11 rounded-full flex items-center justify-center text-white font-display font-bold mb-4" style="background:var(--bleu-academique)">👥</div>
+        <h2 class="font-display font-semibold text-lg mb-2">En groupe d'étude</h2>
+        <p class="text-slate-500 text-sm mb-5">Lance une composition commune avec ton groupe et compare vos scores en direct.</p>
+        <select id="select-matiere-groupe" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-4">
+          <option value="maths">Mathématiques</option>
+          <option value="svt">SVT</option>
+          <option value="philo">Philosophie</option>
+        </select>
+        <button onclick="lancerComposition('groupe')" class="w-full py-2.5 rounded-full text-white font-semibold" style="background:var(--bleu-academique)">Lancer avec mon groupe</button>
+      </div>
+
+      <div class="card p-6">
+        <div class="w-11 h-11 rounded-full flex items-center justify-center text-white font-display font-bold mb-4" style="background:var(--emeraude)">🌍</div>
+        <h2 class="font-display font-semibold text-lg mb-2">Ligne ouverte</h2>
+        <p class="text-slate-500 text-sm mb-5">Matchmaking public : compose avec d'autres élèves de ton niveau, connectés maintenant.</p>
+        <select id="select-matiere-ligne" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm mb-4">
+          <option value="maths">Mathématiques</option>
+          <option value="svt">SVT</option>
+          <option value="philo">Philosophie</option>
+        </select>
+        <button onclick="lancerComposition('ligne')" class="w-full py-2.5 rounded-full text-white font-semibold" style="background:var(--emeraude)">Composer en ligne</button>
+      </div>
+    </div>
+
+    <!-- ÉCRAN 2 : file d'attente (matchmaking) -->
+    <div id="ecran-attente" class="hidden max-w-md mx-auto text-center card p-10 mt-10">
+      <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center text-white text-2xl mb-4 animate-pulse" style="background:var(--emeraude)">⏳</div>
+      <h2 class="font-display font-semibold text-lg mb-2">Recherche d'élèves…</h2>
+      <p id="attente-texte" class="text-slate-500 text-sm mb-6">2 élèves connectés, en attente d'un 3ème.</p>
+      <button onclick="annulerAttente()" class="text-sm text-slate-400 hover:text-red-500">Annuler</button>
+    </div>
+
+    <!-- ÉCRAN 3 : composition en cours -->
+    <div id="ecran-composition" class="hidden">
+      <div class="flex items-center justify-between mb-6 max-w-3xl">
+        <h2 class="font-display text-xl font-bold">Composition — Mathématiques</h2>
+        <div class="chrono text-2xl font-bold" style="color:var(--emeraude)" id="chrono">20:00</div>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6 max-w-4xl">
+        <!-- Question -->
+        <div class="lg:col-span-2 card p-6">
+          <p class="text-xs text-slate-400 mb-2" id="question-numero">Question 1/10</p>
+          <p class="font-semibold mb-5" id="question-enonce">Quelle est la dérivée de f(x) = x² + 3x ?</p>
+          <div id="choix-reponses" class="space-y-2 mb-6"></div>
+          <button onclick="questionSuivante()" class="px-6 py-2.5 rounded-full text-white font-semibold" style="background:var(--bleu-academique)">Valider et continuer →</button>
+        </div>
+
+        <!-- Progression live des autres participants -->
+        <div class="card p-5">
+          <h3 class="font-semibold text-sm mb-4">Progression en direct</h3>
+          <div id="liste-participants" class="space-y-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉCRAN 4 : résultats -->
+    <div id="ecran-resultats" class="hidden max-w-md mx-auto text-center card p-10 mt-10">
+      <div class="text-4xl mb-3">🏆</div>
+      <h2 class="font-display text-xl font-bold mb-1">Composition terminée !</h2>
+      <p class="text-slate-500 text-sm mb-6">Ton score : <span class="font-bold" style="color:var(--emeraude)" id="score-final">16/20</span></p>
+      <a href="/dashboard.html" class="inline-block px-6 py-2.5 rounded-full text-white font-semibold" style="background:var(--emeraude)">Retour au tableau de bord</a>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+  import {
+    observerConnexion, db, mettreAJourProgression, ecouterProgressionComposition,
+    rejoindreMatchmaking, ecouterFileMatchmaking
+  } from './firebase-config.js';
+
+  let uidCourant = null;
+  observerConnexion((user) => {
+    if (!user) { window.location.href = '/index.html'; return; }
+    uidCourant = user.uid;
+  });
+
+  // --- Données de démo (à remplacer par la lecture de exercices/{id} dans Firestore) ---
+  const questionsDemo = [
+    { enonce: "Quelle est la dérivée de f(x) = x² + 3x ?", choix: ["2x + 3", "x + 3", "2x", "x²"], bonne: 0 },
+    { enonce: "lim(x→+∞) 1/x = ?", choix: ["+∞", "0", "1", "Indéterminé"], bonne: 1 },
+    { enonce: "P(A∩B) si A et B indépendants = ?", choix: ["P(A)+P(B)", "P(A)-P(B)", "P(A)×P(B)", "P(A)/P(B)"], bonne: 2 }
+  ];
+  let indexQuestion = 0, bonnesReponses = 0, chronoInterval = null, tempsRestant = 20*60;
+  let compoIdActive = null, arreterEcouteProgression = null;
+
+  window.lancerComposition = function(mode){
+    document.getElementById('ecran-choix').classList.add('hidden');
+    if (mode === 'ligne') {
+      const serverId = "TLE-D"; // à remplacer par profilCourant.serverId
+      const matiere = document.getElementById('select-matiere-ligne').value;
+      rejoindreMatchmaking(serverId, matiere, uidCourant);
+      document.getElementById('ecran-attente').classList.remove('hidden');
+      ecouterFileMatchmaking(serverId, matiere, (file) => {
+        const nb = Object.keys(file || {}).length;
+        document.getElementById('attente-texte').textContent = `${nb} élève(s) en attente sur ce sujet…`;
+        if (nb >= 2) demarrerComposition(); // seuil de démo ; ajuste selon ta règle de matchmaking
+      });
+    } else {
+      demarrerComposition();
+    }
+  };
+
+  window.annulerAttente = function(){
+    document.getElementById('ecran-attente').classList.add('hidden');
+    document.getElementById('ecran-choix').classList.remove('hidden');
+  };
+
+  function demarrerComposition(){
+    document.getElementById('ecran-attente').classList.add('hidden');
+    document.getElementById('ecran-composition').classList.remove('hidden');
+    compoIdActive = 'compo-demo-' + Date.now();
+    indexQuestion = 0; bonnesReponses = 0; tempsRestant = 20*60;
+
+    afficherQuestion();
+    demarrerChrono();
+
+    // Progression live (Realtime Database)
+    arreterEcouteProgression = ecouterProgressionComposition(compoIdActive, (participants) => {
+      const cont = document.getElementById('liste-participants');
+      const entries = Object.entries(participants);
+      cont.innerHTML = entries.length ? entries.map(([uid, p]) => `
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span>${uid === uidCourant ? 'Toi' : uid.slice(0,6)}</span>
+            <span>${p.progression || 0}%</span>
+          </div>
+          <div class="barre-fond h-2 rounded-full overflow-hidden">
+            <div class="barre-remplie h-full" style="width:${p.progression || 0}%"></div>
+          </div>
+        </div>`).join('') : `<p class="text-xs text-slate-400">En attente de la progression des autres participants…</p>`;
+    });
+  }
+
+  function demarrerChrono(){
+    clearInterval(chronoInterval);
+    chronoInterval = setInterval(() => {
+      tempsRestant--;
+      const min = String(Math.floor(tempsRestant/60)).padStart(2,'0');
+      const sec = String(tempsRestant%60).padStart(2,'0');
+      document.getElementById('chrono').textContent = `${min}:${sec}`;
+      if (tempsRestant <= 0) { clearInterval(chronoInterval); terminerComposition(); }
+    }, 1000);
+  }
+
+  function afficherQuestion(){
+    const q = questionsDemo[indexQuestion % questionsDemo.length];
+    document.getElementById('question-numero').textContent = `Question ${indexQuestion+1}/${questionsDemo.length}`;
+    document.getElementById('question-enonce').textContent = q.enonce;
+    const cont = document.getElementById('choix-reponses');
+    cont.innerHTML = q.choix.map((c, i) => `
+      <button class="choix-btn w-full text-left px-4 py-3 rounded-lg text-sm" data-i="${i}">${c}</button>`).join('');
+    cont.querySelectorAll('.choix-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cont.querySelectorAll('.choix-btn').forEach(b => b.classList.remove('selectionne'));
+        btn.classList.add('selectionne');
+        cont.dataset.choixSelectionne = btn.dataset.i;
+      });
+    });
+    delete cont.dataset.choixSelectionne;
+  }
+
+  window.questionSuivante = function(){
+    const cont = document.getElementById('choix-reponses');
+    const q = questionsDemo[indexQuestion % questionsDemo.length];
+    if (cont.dataset.choixSelectionne !== undefined && parseInt(cont.dataset.choixSelectionne) === q.bonne) {
+      bonnesReponses++;
+    }
+    indexQuestion++;
+    const progression = Math.round((indexQuestion / questionsDemo.length) * 100);
+    mettreAJourProgression(compoIdActive, uidCourant, Math.min(progression,100), bonnesReponses);
+
+    if (indexQuestion >= questionsDemo.length) {
+      terminerComposition();
+    } else {
+      afficherQuestion();
+    }
+  };
+
+  function terminerComposition(){
+    clearInterval(chronoInterval);
+    if (arreterEcouteProgression) arreterEcouteProgression();
+    document.getElementById('ecran-composition').classList.add('hidden');
+    document.getElementById('ecran-resultats').classList.remove('hidden');
+    const note = Math.round((bonnesReponses / questionsDemo.length) * 20);
+    document.getElementById('score-final').textContent = `${note}/20`;
+  }
+</script>
+</body>
+</html>
